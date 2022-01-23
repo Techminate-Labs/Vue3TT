@@ -1,10 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from '@/store'
 import GuestRoutes from './guest/guest'
+<<<<<<< HEAD
 
 
 const routes = [
     ...GuestRoutes,
+=======
+import ErrorsRoutes from './errors'
+
+const routes = [
+    ...GuestRoutes,
+    ...ErrorsRoutes,
+>>>>>>> 6c76e0ef6791ee1ac9e25cae292cfdb73f0a7dab
 ];
 
 const router = createRouter({
