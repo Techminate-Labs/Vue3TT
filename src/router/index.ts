@@ -11,20 +11,18 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
-})
+});
 
 router.beforeEach((to, from, next) => {
     const isAuthenticated = store.state.user.isAuthenticated
     const hasToken = store.state.session.bearerToken.length
-
-    if (to.meta.auth && !isAuthenticated) {
-  	  next('/')
-    } else if (to.name === "GuestLogin" && isAuthenticated && hasToken) {
+    if(to.meta.auth && !isAuthenticated){
+        next('/')
+    }else if (to.name === "GuestLogin" && isAuthenticated && hasToken){
         next('/dashboard')
-    } else {
-	    next()
+    }else{
+        next()
     }
-
 })
 
 export default router
