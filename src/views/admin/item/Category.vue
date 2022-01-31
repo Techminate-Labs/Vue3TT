@@ -40,9 +40,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import CategoryService from "@/services/item/CategoryService";
-import DataTable from '@/components/tables/DataTable.vue';
-import CategoryModalCreate from '@/components/modals/CategoryModalCreate.vue';
-import CategoryModalUpdate from '@/components/modals/CategoryModalUpdate.vue';
+import DataTable from '@/components/table/DataTable.vue';
+import CategoryModalCreate from '@/components/modals/CategoryCreate.vue';
+import CategoryModalUpdate from '@/components/modals/CategoryUpdate.vue';
 import DeleteModal from '@/components/modals/DeleteModal.vue';
 import ResponseData from "@/types/ResponseData";
 import { Category } from "@/types/item/Category";
@@ -113,7 +113,7 @@ export default defineComponent({
 		showCategoryCreateModal(): void {
 			this.isCreating = true
 		},
-		showCategoryEditModal(item: any): void {
+		showCategoryEditModal(item: Category): void {
 			this.selectedCategory = item
 			this.isEditing = true
 		},

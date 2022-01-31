@@ -6,11 +6,10 @@ import VueToast from 'vue-toast-notification'
 import 'vue-toast-notification/dist/theme-default.css'
 import '@/index.css'
 
-let toastOptions = {
-    position: 'top-right',
-    duration: 6000,
-    dismissible: true
-  }
-
+const toastOptions = {
+  position: 'top-right',
+  duration: 6000,
+  dismissible: true
+}
   
 createApp(App).use(store).use(router).use(VueToast, toastOptions).mount('#app')
