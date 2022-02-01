@@ -1,10 +1,11 @@
 import { RouteRecordRaw } from 'vue-router'
-import Category from '@/views/admin/item/Category.vue'
+import CategoryList from '@/views/admin/item/Category.vue'
+
 const ItemsRoutes: Array<RouteRecordRaw> = [
     {
         path: '/category',
         name: 'Category',
-        component: Category,
+        component: CategoryList,
     }
 ]
 

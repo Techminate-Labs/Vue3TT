@@ -135,11 +135,11 @@ export default defineComponent({
     },
     props: {
         columns: {
-            type: Array as any,
+            type: Array,
             required: true
         },
         data: {
-            type: Array as any,
+            type: Array,
             required: true
         },
         meta: {
@@ -194,10 +194,10 @@ export default defineComponent({
                 return null
             }
         },
-        itemsInPage(): any[] {
+        itemsInPage() {
             return this.data
         },
-        sortedItems(): any[] {
+        sortedItems() {
             return this.itemsInPage.sort((a: any, b: any) => {
                 let modifier = 1;
                 if(this.currentSortDir === 'desc') modifier = -1;
