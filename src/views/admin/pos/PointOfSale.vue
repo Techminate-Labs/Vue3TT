@@ -1,0 +1,156 @@
+<template>
+    <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white rounded-md shadow-md col-span-1">
+            <div class="flex flex-col flex-nowrap w-full mb-4 p-4">
+                <Multiselect
+                    v-model="itemId"
+                    @select="addItemToCart()"
+                    :delay="0"
+                    :filterResults="true"
+                    :resolveOnLoad="true"
+                    :searchable="true"
+                    placeholder="Pick an Item"
+                    :options="async function(query, $event) {
+                        return await fetchItems(query) // check JS block in JSFiddle for implementation
+                    }"
+                    >
+                        <template v-slot:singleLabel="{ value }">
+                            <div class="multiselect-single-label">
+                            <img class="w-24 h-32 object-cover mr-4" :src="value.img">
+                            <span class="text-xl">
+                                {{ value.label }}
+                            </span>
+                            </div>
+                        </template>
+
+                        <template v-slot:option="{ option }">
+                            <img class="w-24 h-16 object-cover rounded-xl mr-4" :src="option.img">{{ option.label }}
+                        </template>
+                </Multiselect>
+            </div>
+            <div class="grid grid-cols-3 rounded-xl gap-3 p-4">
+                <div v-for="(item, index) in popularItems" :key="index">
+                    <ItemCard :item="item" @click="addPopularItemToCart(item.item_id)" />
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-md col-span-1 col-start-2">
+            <div class="flex flex-col flex-nowrap w-full mb-4 p-4">
+                <Multiselect
+                    v-model="customerId"
+                    @select="addCustomerToCart()"
+                    :delay="0"
+                    :filterResults="true"
+                    :resolveOnLoad="true"
+                    :searchable="true"
+                    placeholder="Pick a Customer"
+                    :options="async function(query, $event) {
+                        return await fetchCustomers(query) // check JS block in JSFiddle for implementation
+                    }"
+                />
+            </div>
+            <div class="w-full rounded-md px-2">
+                <ul class="flex flew-row flew-nowrap justify-evenly text-center bg-gray-200">
+                    <li 
+                        @click="setActive('cart')"
+                        class="flex-grow">
+                        <div 
+                            :class="isActive('cart') ? 'text-white bg-blue-900 rounded-tl-md' : ''"
+                            class="px-3 py-2 cursor-pointer">
+                            <span>Cart Items</span>
+                        </div>
+                    </li>
+                    <li 
+                        @click="setActive('invoice')"
+                        class="flex-grow">
+                        <div 
+                            :class="isActive('invoice') ? 'text-white bg-blue-900 rounded-tl-md' : ''"
+                            class="px-3 py-2 cursor-pointer">
+                            <span>Invoice</span>
+                        </div>
+                    </li>
+                    <li 
+                        @click="setActive('customer')"
+                        class="flex-grow">
+                        <div 
+                            :class="isActive('customer') ? 'text-white bg-blue-900 rounded-tl-md' : ''"
+                            class="px-3 py-2 cursor-pointer">
+                            <span>Add Customer</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="w-full rounded-xl shadow-md px-2 pt-1">
+                <div :class="isActive('cart') ? 'block' : 'hidden'">
+                    <CartTable :cart="cart" @fetchCart="fetchCartItems" />
+                    <Payments 
+                        @discountChange="addCoupon" 
+                        @printInvoice="printInvoice"
+                        @loadExplorer="$router.push({name: 'TransactionExplorer'})"
+                        @changePaymentMethod="updateCartMethod" 
+                        @generateQrCode="generateQrCode"/>
+                </div>
+                <div :class="isActive('invoice') ? 'block' : 'hidden'">
+                    <Invoice :invoice="invoice" :cart="cart" />
+                </div>
+                <div :class="isActive('customer') ? 'block' : 'hidden'">
+                    <CustomerForm />
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script lang="ts">
+import { defineComponent } from 'vue';
+import ItemCard from "@/components/pos/ItemCard.vue"
+import CartTable from "@/components/pos/CartTable.vue"
+import Payments from "@/components/pos/Payments.vue"
+import Invoice from "@/components/pos/Invoice.vue"
+import CustomerForm from "@/components/pos/CustomerForm.vue"
+
+import { ItemObject } from '@/types/items/Items'
+import { Cart } from '@/types/pos/Cart'
+
+
+export default defineComponent({
+    name: 'PointOfSale',
+    components: { ItemCard, CartTable, Payments, Invoice, CustomerForm, },
+    data(){
+        return {
+            popularItems: [] as Array<ItemObject>,
+            activeItem: 'cart',
+            itemId: '',
+            cart: {} as Cart,
+            invoice: this.$store.state.pos.cart,
+            customerId: '',
+            discountCode: '',
+            paymentMethod: this.$store.state.pos.cart.payment_method ? this.$store.state.pos.cart.payment_method : 'fiat',
+            isGeneratingInvoice: false
+        }
+    },
+   
+});
+</script>
+<style scoped>
+
+li.flex-grow {
+  position: relative;
+  display: block;
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+li.flex-grow:after {
+  position: absolute;
+  content: '';
+  left: 60px;
+  top: 0;
+  height: 490%;
+  width: 160%;  
+  height: 50px;
+  background: #fff;
+  bottom: 0px;
+  right: -150px;
+  transform: rotate(45deg);
+}
+</style>

@@ -1,0 +1,75 @@
+<template>
+	<div>
+		<div class="flex flex-nowrap justify-between">
+			<h1 class="display-h1">Update Coupon</h1>
+		</div>
+		<div class="bg-white p-4 rounded-lg shadow-md">
+			<div class="flex flex-col py-2">
+				<label class="label" for="discount">Discount:</label>
+				<input
+					class="text-input" 
+					type="number" 
+					id="discount" 
+					v-model="discount" 
+					placeholder="John Doe" 
+					/>
+			</div>
+			<div class="flex flex-col py-2">
+				<label class="label" for="start_date">Start Date:</label>
+				<input 
+					type="date"
+					v-model="start_date"
+					class="text-input" 
+					/>
+			</div>
+			<div class="flex flex-col py-2">
+				<label class="label" for="end_date">End Date:</label>
+				<input 
+					type="date"
+					v-model="end_date"
+					class="text-input" 
+					/>
+			</div>
+			<div class="flex flex-col py-2">
+				<label class="label" for="active">Active:</label>
+				<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+					<input 
+						v-model="active" 
+						type="checkbox" 
+						id="active toggle"
+						class="toggle-checkbox base-toggle-input"
+						/>
+					<label for="active" class="toggle-label base-toggle-labelblock overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+				</div>
+			</div>
+			<div class="my-2 text-right">
+				<button 
+					class="base-btn" 
+					v-show="$store.getters.userCan('edit', 'Coupon')"
+					@click="updateCoupon">
+					Save and Exit
+				</button>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import ResponseData from "@/types/ResponseData";
+
+export default defineComponent({
+	name: 'CouponCreate',
+	data() {
+		return {
+			discount: 0,
+			start_date: '',
+			end_date: '',
+			active: false
+		}
+	},
+	
+	
+});
+</script>

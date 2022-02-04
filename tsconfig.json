@@ -6,7 +6,6 @@
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -32,8 +31,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+    "tests/**/*.tsx",
+    "src/store/index.js"
+, "src/mixins/EmptyCheck.js"  ],
   "exclude": [
     "node_modules"
   ]
