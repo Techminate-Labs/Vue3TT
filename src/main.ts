@@ -12,4 +12,8 @@ const toastOptions = {
   dismissible: true
 }
   
-createApp(App).use(store).use(router).use(VueToast, toastOptions).mount('#app')
+createApp(App)
+  .use(store)
+  .use(router)
+  .use(VueToast, toastOptions)
+  .mount('#app')
